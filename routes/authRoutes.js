@@ -1,10 +1,5 @@
-module.exports = (app) => {
-  // delegate app to routes in this folder.
-  app.get("/api/login", (req, res) => {
-    res.send("HI");
-  });
+const usersController = require("../controllers/usersController");
 
-  app.get("/", (req, res) => {
-    res.send("hello");
-  });
+module.exports = (app) => {
+  app.post("/api/users", usersController.createUser);
 };

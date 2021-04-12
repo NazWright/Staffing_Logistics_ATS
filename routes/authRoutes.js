@@ -7,7 +7,7 @@ module.exports = (app) => {
   app.post(
     "/api/login",
     passport.authenticate("local", {
-      failureRedirect: "/api/login",
+      failureRedirect: "/",
       successRedirect: "/",
       failureFlash: true,
     })

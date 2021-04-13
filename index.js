@@ -10,13 +10,14 @@ require("./models");
 require("./services/passport");
 
 if (process.env.NODE_ENV !== "test") {
+  console.log(keys.mongoURI);
   mongoose
     .connect(keys.mongoURI)
     .then(() => {
       console.log("connected to database");
     })
-    .catch(() => {
-      console.error("Error: Failed to connect to database.");
+    .catch((error) => {
+      console.error("Error: Failed to connect to database.", error);
     });
 }
 

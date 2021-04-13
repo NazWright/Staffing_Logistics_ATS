@@ -61,22 +61,19 @@ passport.use(
       usernameField: "email",
       passReqToCallback: true,
     },
-    function (req, email, password, done) {
-      User.findOne({ email: email }, (err, user) => {
-        if (user === null) {
+    async function (req, email, password, done) {
+      let user;
+      try {
+        user = await User.findOne({ email });
+        if (!user) {
           return done(null, false, { message: "No user with this email" });
         }
-        //then take them to a profile to fill out other information
-        try {
-          if (bcrypt.compare(password, user.password)) {
-            return done(null, user);
-          } else {
-            return done(null, false, { message: "Password Incorrect" });
-          }
-        } catch (e) {
-          return done(e);
+        if (bcrypt.compare(password, user.password)) {
+          return done(null, user);
         }
-      });
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );

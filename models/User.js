@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const PointSchema = require("./Point");
+const roleSchema = require("./Role");
 
 const userSchema = new Schema({
   googleId: {
@@ -23,10 +24,7 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  role: {
-    type: String,
-    required: [true, "Role is required."],
-  },
+  role: roleSchema,
   isAdmin: {
     type: Boolean,
     required: [true, "Admin capabilities must be specified."],

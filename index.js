@@ -10,7 +10,6 @@ require("./models");
 require("./services/passport");
 
 if (process.env.NODE_ENV !== "test") {
-  console.log(keys.mongoURI);
   mongoose
     .connect(keys.mongoURI)
     .then(() => {

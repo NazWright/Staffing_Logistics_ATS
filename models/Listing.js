@@ -43,6 +43,11 @@ const ListingSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  location: PointSchema,
+  address: {
+    type: String,
+    required: true,
+  },
 });
 
 const Listing = mongoose.model("listings", ListingSchema);

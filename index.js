@@ -47,3 +47,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log("App listening"));
 
 module.exports = app;
+
+// google maps request format
+//  https://maps.googleapis.com/maps/api/geocode/json?key={API_KEY}&address={user.address}

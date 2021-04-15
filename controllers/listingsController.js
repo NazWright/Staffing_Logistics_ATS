@@ -12,6 +12,7 @@ module.exports = {
         jobType,
         category,
         description,
+        address,
       } = req.body;
       const listing = await new Listing({
         publisher_id: req.user._id,
@@ -24,9 +25,11 @@ module.exports = {
         dateCreated: Date.now(),
         status: "Active",
         new: true,
+        address,
       }).save();
       if (listing) {
-        return res.send(listing);
+        res.send(listing);
+        return res.redirect("/api/getLocation");
       }
       return res.status(500).send({ error: "Listing Not Created." });
     } catch (error) {

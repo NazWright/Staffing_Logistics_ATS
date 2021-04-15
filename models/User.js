@@ -45,6 +45,12 @@ const userSchema = new Schema({
     type: Number,
     required: false,
   },
+  org_name: {
+    type: String,
+    required: false,
+  },
+  location: PointSchema,
+  address: String,
 });
 
 const User = mongoose.model("users", userSchema);

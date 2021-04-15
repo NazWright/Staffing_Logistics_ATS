@@ -9,5 +9,5 @@ module.exports = {
   // SILVER_PRICE_ID: process.env.SILVER_PRICE_ID, // havent added to heroku yet
   // BRONZE_PRICE_ID: process.env.BRONZE_PRICE_ID, // havent added to heroku yet
   // stripeWebhookSecret: process.env.stripeWebhookSecret,
-  // GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+  GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
 };

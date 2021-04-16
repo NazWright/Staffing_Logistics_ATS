@@ -35,6 +35,7 @@ passport.use(
       }).then((existingUser) => {
         if (existingUser) {
           // we already have a record with the given profile ID
+          res.redirect("/");
           done(null, existingUser);
         } else {
           // we don't have a user record with this ID, make a new record!
@@ -43,12 +44,17 @@ passport.use(
             familyName: name.familyName,
             givenName: name.givenName,
             email: emails[0].value,
-            role: "Default",
+            role: {
+              name: "Default",
+              caps: [],
+            },
             isAdmin: false,
             parent: null,
           })
             .save()
-            .then((user) => done(null, user));
+            .then((user) => {
+              done(null, user);
+            });
         }
       });
     }

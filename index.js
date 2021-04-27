@@ -9,6 +9,7 @@ const app = express();
 require("./models");
 require("./services/passport");
 
+// test env rules
 if (process.env.NODE_ENV !== "test") {
   mongoose
     .connect(keys.mongoURI)
@@ -18,6 +19,17 @@ if (process.env.NODE_ENV !== "test") {
     .catch((error) => {
       console.error("Error: Failed to connect to database.", error);
     });
+}
+
+// production env rules
+if (process.env.NODE_ENV === "production") {
+  // making sure express will serve up production assets
+  app.use(express.static("frontend/build"));
+  // express will serve up index.html
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
 }
 
 app.use(

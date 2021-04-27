@@ -10,4 +10,6 @@ module.exports = {
   // BRONZE_PRICE_ID: process.env.BRONZE_PRICE_ID, // havent added to heroku yet
   // stripeWebhookSecret: process.env.stripeWebhookSecret,
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+  GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  GOOGLE_CLOUD_PROJECT: process.env.GOOGLE_CLOUD_PROJECT,
 };

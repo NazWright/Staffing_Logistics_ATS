@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import JobSearchForm from "./JobSearchForm";
 import JobsList from "./JobsList";
+import Map from "../Map";
 
 export default function BrowseJob({ location }) {
   const [address, setAddress] = useState(location.state.address);

@@ -4,6 +4,10 @@ import { Counter } from "./features/counter/Counter";
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { fetch_user, selectAuth, authenticate } from "./auth/ auth/authSlice";
+import {
+  fetch_listings,
+  selectListings,
+} from "./features/listings/listingSlice";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { components } from "./components/index";
 import Login from "./components/Login";
@@ -24,10 +28,13 @@ function App() {
   }
 
   const authInfo = useSelector(selectAuth);
+  const listings = useSelector(selectListings);
+  console.log(listings);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetch_user());
+    dispatch(fetch_listings());
   });
 
   return (

@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/NazWright/Staffing_Logistics_ATS#readme",
   "dependencies": {
+    "@google-cloud/storage": "^5.8.4",
+    "@google-cloud/talent": "^3.2.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "concurrently": "^6.0.2",

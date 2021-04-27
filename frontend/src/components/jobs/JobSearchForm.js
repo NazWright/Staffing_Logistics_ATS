@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 export default function JobSearchForm({ address }) {
   const { register, handleSubmit } = useForm();
-
+  console.log(address);
   return (
     <div>
       <Form className="add-quarter-height">
@@ -20,14 +20,15 @@ export default function JobSearchForm({ address }) {
             as="input"
             type="text"
             placeholder="Location"
-            defaultValue={address}
+            defaultValue={address && address.label ? address.label : null}
           />
           <Form.Control
             className="left-corner"
             as="select"
             placeholder="Category"
+            defaultValue="null"
           >
-            <option selected hidden disabled>
+            <option hidden disabled value="null">
               Select a Category
             </option>
             <option>option 1</option>

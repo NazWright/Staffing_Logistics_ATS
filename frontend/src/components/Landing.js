@@ -7,10 +7,10 @@ import { Row, Col, Form, ButtonGroup, Button } from "react-bootstrap";
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
-import PlacesAutocomplete, {
+import GooglePlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
-} from "react-places-autocomplete";
+} from "react-google-places-autocomplete";
 // populate dropdown from a list of job categories
 
 const useStyles = makeStyles((theme) => ({
@@ -85,44 +85,16 @@ export default function Landing() {
               <Form.Label>
                 <FaIcons.FaMapMarkerAlt size={25} color="black" /> Where?
               </Form.Label>
-              <PlacesAutocomplete
-                value={address}
-                onChange={setAddress}
-                onSelect={onSelect}
-                onError={onError}
-              >
-                {({
-                  getInputProps,
-                  suggestions,
-                  getSuggestionItemProps,
-                  loading,
-                }) => (
-                  <div>
-                    <Form.Control
-                      {...getInputProps({ placeholder: "Enter Address" })}
-                    />
-                    <div>
-                      {loading ? <div>...loading</div> : null}
-                      {suggestions.map((suggestion, index) => {
-                        const style = {
-                          backgroundColor: suggestion.active
-                            ? "#41b6e6"
-                            : "#fff",
-                        };
-
-                        return (
-                          <div
-                            {...getSuggestionItemProps(suggestion, { style })}
-                            key={index}
-                          >
-                            {suggestion.description}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </PlacesAutocomplete>
+              <GooglePlacesAutocomplete
+                apiKey={"AIzaSyCJ590ZkdA4P9dmFwj2cyuH9Szz8J98Dig"}
+                onLoadFailed={(error) => {
+                  console.error("Could not inject Google script", error);
+                }}
+                selectProps={{
+                  value: address,
+                  onChange: setAddress,
+                }}
+              ></GooglePlacesAutocomplete>
             </Form.Group>
             <Form.Group>
               <Form.Label>

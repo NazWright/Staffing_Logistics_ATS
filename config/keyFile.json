@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "peoplecount-prod",
+  "private_key_id": "51b1ecf1bf1bd9c72d78da21af860a0c96af02c4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzNPO13Knhkunr\npfyC9jSv1hPUTgwaRRss7bfyb5cpdiekYGYAoc3T/KRutyH7TLeagc7TMGD9/ysN\nQH/BGlTfLmoXN+gdedncvETTyStxNwEcgvw7an0cCk4nlgf8Vcje3OtrJnF8hYvc\n5r2aNb8C7TubSf+j4yhnSzn87105gnz8C6dS5OPwxya1EZooa/WQQUepyFb+BUoF\nPH+RUlaNDegt/MFqguMU6FKMJVZU0aXhzZRin3V1Z3Xl76LI1aCDxrqlDRtBNsFz\ncDjg1y+NFj+gD1XwW4U8Nn+1TqLz9w5sfnLh2McsbBpIO+s2ywCqEl9Q1WiyhfR6\nGld1+v3XAgMBAAECggEAA2VrgPTPm2DHYhnhMTItSW/LLGjWPeE1ZKKUq9mFidmd\nYrYY+MYYOn49N4Ps9vA7QohXPRVboTSmwjeItEYleZ1NkWcT1QssH8zJmSHk2t5p\n/PpWgWHBQTjIxmNHf3a4udCB/aPa3rtBLUyKJ1QBbLLGQGkkmRyC9YItdSesIpzY\nUGiUy4uoOODNX6p06go0HswfXMTfX3pqiI+kywfBQgZC8l7brnvAA9Wf/IipeZiP\nYmvb8tSBdvmG1KcgJnjjJBCycCa4rZuwpMcM0/oOeOJuT6Re4N+ckio0mkOksw1e\nO48qxV2s/lGBB2KWxPGr2eEuQX7bfDqoL8QmrTyf0QKBgQDoP9ypupGL9w1GjFpn\npK3t8ps9cwCns69HznREFbCf14tdRY1pdtoTHKf2TBhbpt8Li+MNcNIDdxuFYB+r\nxGURJpIPcAvShlHEsFo0Q66tL+m563RUIciVO7YddnNHC/JsCKFl0xMfPIul16iU\n2FfTYkLYOorST5+y18BwOFZNFQKBgQDFiHge9c95qzCMYNCi9A2PCTFX8Xm+DwRi\nEGhQXj/0LZIB6h/FVKcPikIL1Lwtvm4SgcTv7FmLqMJKxBHB6+ddSXOjMx34RpFA\nRdQkJQO6PAI6QDa50i7gy5MwRJPX2MBZpR7w6mct6mpG6Qck/yHNUlDxTiBWQ/PG\nSaZ9AmzSOwKBgQDd4V0cHiy8zhq1wpMAH3k3MacUDtGaZfTYIio7fYlPO+peAnu2\nPSDcT207xbkjnonKiysxBQ7u1pTJWGsJe8iemP3Dl+UDjOWDhoO3GM5BkNu3jnWF\nhv0NbY1wGmDJiGVixuAC2qOTHRHBMAZTpVhKj76Su2Myx3UntC2aSIhSfQKBgA+H\nSuokKMtHyek/MyecR/SWpGplcUyfoZiT8Z9fyWdIrdG4tgatQPTXyZlkf+aYsc6C\npRi3W9K+0YdPIpY8FVQgEhciTZjW81Q6KRMuVbyuOv6ZTbQN8eF6H3gL7BNr1rM1\nZ9lIlBPn+bLZXtZpuB6L+hD+M0yUyvUrlQr+xc9BAoGBALHUqJeDbceIu4aAPb3M\noT1EuEidOc240q/cl05Ka7g3tIGgILwe4xh83MO/DaFagQap9ntv00sv2QoXnRij\nSBmf7SGb65kY+tazGVwYPdUWqwQqfoOSvswLyXZoSUjuf0aDn9aZl/OCgAjLQGJJ\nKv9jP0z86R8h4plldw1Q2aI3\n-----END PRIVATE KEY-----\n",
+  "client_email": "slcompanies@peoplecount-prod.iam.gserviceaccount.com",
+  "client_id": "102375829648127372219",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/slcompanies%40peoplecount-prod.iam.gserviceaccount.com"
+}

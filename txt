@@ -1,0 +1,1 @@
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/nazwright/Desktop/peoplecount-prod-ca2628035101.json"

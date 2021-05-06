@@ -45,9 +45,11 @@ const userSchema = new Schema({
     type: Number,
     required: false,
   },
-  org_name: {
-    type: String,
-    required: false,
+  org: {
+    googleCompanyName: String,
+    name: String,
+    owner: Boolean,
+    companyId: String,
   },
   location: PointSchema,
   address: String,

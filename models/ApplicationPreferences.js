@@ -19,12 +19,16 @@ const preferencesSchema = new Schema({
     required: true,
   },
   startOfWork: {
-    type: [String],
+    type: Date,
     required: true,
   },
   preferredShift: {
     type: String,
     required: false,
+  },
+  availability: {
+    type: [String],
+    required: true,
   },
   eightTo12HrShifts: {
     type: Boolean,

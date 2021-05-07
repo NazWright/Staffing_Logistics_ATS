@@ -5,3 +5,5 @@ exports.job = require("./Job");
 exports.application = require("./Application");
 exports.preferences = require("./ApplicationPreferences");
 exports.requirements = require("./Requirements");
+exports.signatures = require("./SignedPolicies");
+exports.references = require("./References");

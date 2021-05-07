@@ -8,3 +8,5 @@ exports.requirements = require("./Requirements");
 exports.signatures = require("./SignedPolicies");
 exports.references = require("./References");
 exports.personal = require("./PersonalInfo");
+exports.emergency = require("./EmergencyContact");
+exports.background = require("./BackgroundCheck");

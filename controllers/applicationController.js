@@ -6,8 +6,14 @@ const Preferences = mongoose.model("preferences");
 const Signatures = mongoose.model("signatures");
 const References = mongoose.model("references");
 const PersonalInfo = mongoose.model("personal_information");
+const EmergencyContact = mongoose.model("emergency_contacts");
+const BackgroundCheck = mongoose.model("background_checks");
+const bycrpt = require("bcrypt");
 
 module.exports = {
+  /* 
+    Sumbits job detail preferences for the current user.  
+  */
   async submitJobPreferences(req, res) {
     const {
       first,
@@ -55,6 +61,9 @@ module.exports = {
     });
   },
 
+  /* 
+    Retreives policies signed by a specified user
+  */
   async getPolicySignatures(req, res) {
     try {
       if (!req.query || !req.query.applicationId) {
@@ -75,6 +84,9 @@ module.exports = {
     }
   },
 
+  /* 
+    Records signed policies for current user. 
+  */
   async submitPolicySignatures(req, res) {
     try {
       if (!req.query || !req.query.applicationId) {
@@ -117,6 +129,32 @@ module.exports = {
     }
   },
 
+  /* 
+    Retrieves preferences for a specified user.  
+  */
+
+  async getJobPreferences(req, res) {
+    const { applicationId } = req.query;
+    const userId = req.user._id;
+    try {
+      const matchedPreferences = await Preferences.findOne({
+        applicationId,
+        userId,
+      });
+      if (!matchedPreferences) {
+        return res.status(404).send({
+          error: "Preferences for given user and application is not found.",
+        });
+      }
+      return res.status(200).send(matchedPreferences);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  /* 
+    Retrieves references for a specified user.  
+  */
   async getReferences(req, res) {
     var applicationId;
     if (!req.query || !req.query.applicationId) {
@@ -139,6 +177,9 @@ module.exports = {
     }
   },
 
+  /* 
+    Sumbits references provided by applicant 
+  */
   async submitReferences(req, res) {
     var applicationId;
     if (!req.query || !req.query.applicationId) {
@@ -179,6 +220,9 @@ module.exports = {
     }
   },
 
+  /* 
+    Sumbits the personal info provided by the user for job application 
+  */
   async submitPersonalInfo(req, res) {
     const {
       familyName,
@@ -214,9 +258,11 @@ module.exports = {
     }
   },
 
+  /* 
+    Retrieves the personal info provided by user for job application  
+  */
   async getPersonalInfo(req, res) {
     const { applicationId } = req.query;
-
     const matchedPersonalInfo = await PersonalInfo.findOne({
       applicationId,
       userId: req.user._id,
@@ -228,5 +274,135 @@ module.exports = {
       });
     }
     return res.status(200).send(matchedPersonalInfo);
+  },
+
+  /* 
+    Sumbits the emergency contact info for job application  
+  */
+  async submitEmergencyContactInfo(req, res) {
+    const { applicationId } = req.query;
+    const {
+      familyName,
+      givenName,
+      middleName,
+      address,
+      phone,
+      secPhone,
+      email,
+      relationshipToUser,
+    } = req.body;
+    const emergencyContact = await new EmergencyContact({
+      applicationId,
+      userId: req.user._id,
+      familyName,
+      middleName,
+      givenName,
+      address,
+      phone,
+      secPhone,
+      email,
+      relationshipToUser,
+    }).save();
+    if (!emergencyContact.isNew) {
+      return res.status(200).send(emergencyContact);
+    }
+    return res
+      .staus(500)
+      .send({ error: "Emergency contact could not be saved." });
+  },
+
+  /* 
+    Retrieves the emergency contact info for job application for current user
+  */
+  async getEmergencyContact(req, res) {
+    const { applicationId } = req.query;
+    const userId = req.user._id;
+    try {
+      const matchedEmergencyContact = await EmergencyContact.findOne({
+        applicationId,
+        userId,
+      });
+      if (!matchedEmergencyContact) {
+        return res.status(404).send({
+          error:
+            "Emergency contact for given user and application is not found.",
+        });
+      }
+      return res.status(200).send(matchedEmergencyContact);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  /* 
+    Sumbits the background check information for the current user. 
+  */
+  async submitBackgroundInfo(req, res) {
+    const { applicationId } = req.query;
+    const userId = req.user._id;
+    const {
+      givenName,
+      familyName,
+      middleName,
+      socialSecurityNum,
+      gender,
+      dateOfBirth,
+      driversLicenseNum,
+      driverLicenseState,
+      address,
+      prevCities,
+      hasCrime,
+      crimes,
+      backgroundSignature,
+    } = req.body;
+    try {
+      const hashedSSN = await bycrpt.hash(socialSecurityNum, 10);
+      const backgroundEntries = await new BackgroundCheck({
+        applicationId,
+        userId,
+        givenName,
+        middleName,
+        familyName,
+        socialSecurityNum: hashedSSN,
+        gender,
+        dateOfBirth,
+        driversLicenseNum,
+        driverLicenseState,
+        address,
+        prevCities,
+        hasCrime,
+        crimes: hasCrime ? crimes : null,
+        backgroundSignature,
+      }).save();
+      if (!backgroundEntries.isNew) {
+        return res.status(200).send(backgroundEntries);
+      }
+      return res.status(500).send({
+        error: "Something went wrong, cannot save background entries.",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  /* Retrieves the background check info for the specified user */
+  async getBackgroundInfo(req, res) {
+    const { applicationId } = req.query;
+    const userId = req.user._id;
+    try {
+      const matchedBackgroundCheck = await BackgroundCheck.findOne({
+        applicationId,
+        userId,
+      });
+      if (!matchedBackgroundCheck) {
+        return res.status(404).send({
+          error:
+            "Background check for given user and application is not found.",
+        });
+      }
+      return res.status(200).send(matchedBackgroundCheck);
+    } catch (error) {
+      console.error(error);
+    }
   },
 };

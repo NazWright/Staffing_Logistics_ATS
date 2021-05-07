@@ -7,3 +7,4 @@ exports.preferences = require("./ApplicationPreferences");
 exports.requirements = require("./Requirements");
 exports.signatures = require("./SignedPolicies");
 exports.references = require("./References");
+exports.personal = require("./PersonalInfo");

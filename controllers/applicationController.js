@@ -5,6 +5,7 @@ const Application = mongoose.model("applications");
 const Preferences = mongoose.model("preferences");
 const Signatures = mongoose.model("signatures");
 const References = mongoose.model("references");
+const PersonalInfo = mongoose.model("personal_information");
 
 module.exports = {
   async submitJobPreferences(req, res) {
@@ -47,12 +48,11 @@ module.exports = {
 
     if (!applicationPreferences.isNew) {
       return res.status(200).send(applicationPreferences);
-    } else {
-      return res.status(500).send({
-        error:
-          "Something went wrong, job application entries could not be saved.",
-      });
     }
+    return res.status(500).send({
+      error:
+        "Something went wrong, job application entries could not be saved.",
+    });
   },
 
   async getPolicySignatures(req, res) {
@@ -67,9 +67,8 @@ module.exports = {
       });
       if (userSignatures) {
         return res.status(200).send(userSignatures);
-      } else {
-        return res.status(404).send({ error: "No signatures for given user." });
       }
+      return res.status(404).send({ error: "No signatures for given user." });
     } catch (error) {
       console.log(Object.keys(error));
       console.error(error);
@@ -86,16 +85,19 @@ module.exports = {
         sexHarrasmentPolicy,
         noCallNoShowPolicy,
         weeklyCheckInPolicy,
+        attendancePolicy,
       } = req.body;
       if (
         sexHarrasmentPolicy.signed &&
         noCallNoShowPolicy.signed &&
-        weeklyCheckInPolicy.signed
+        weeklyCheckInPolicy.signed &&
+        attendancePolicy.signed
       ) {
         const policies_signed = [
           sexHarrasmentPolicy,
           noCallNoShowPolicy,
           weeklyCheckInPolicy,
+          attendancePolicy,
         ];
         const signedPolicies = await new Signatures({
           applicationId,
@@ -104,12 +106,11 @@ module.exports = {
         }).save();
         if (!signedPolicies.isNew) {
           return res.status(200).send(signedPolicies);
-        } else {
-          return res.status(500).send({
-            error:
-              "Something went wrong, signature submissions could not be saved.",
-          });
         }
+        return res.status(500).send({
+          error:
+            "Something went wrong, signature submissions could not be saved.",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -168,14 +169,64 @@ module.exports = {
         references,
       }).save();
       if (!userReferences.isNew) {
-        return res.status.send(userReferences);
-      } else {
-        return res.status(500).send({
-          error: "Something went wrong, references could not be saved.",
-        });
+        return res.status(200).send(userReferences);
       }
+      return res.status(500).send({
+        error: "Something went wrong, references could not be saved.",
+      });
     } catch (error) {
       console.error(error);
     }
+  },
+
+  async submitPersonalInfo(req, res) {
+    const {
+      familyName,
+      givenName,
+      middleName,
+      address,
+      phone,
+      secPhone,
+      email,
+    } = req.body;
+    const userId = req.user._id;
+    const { applicationId } = req.query;
+    try {
+      const personalRecord = await new PersonalInfo({
+        applicationId,
+        userId,
+        givenName,
+        middleName,
+        familyName,
+        address,
+        phone,
+        secPhone,
+        email,
+      }).save();
+      if (!personalRecord.isNew) {
+        return res.status(200).send(personalRecord);
+      }
+      return res
+        .status(500)
+        .send({ error: "Personal information could not be saved." });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async getPersonalInfo(req, res) {
+    const { applicationId } = req.query;
+
+    const matchedPersonalInfo = await PersonalInfo.findOne({
+      applicationId,
+      userId: req.user._id,
+    });
+    if (!matchedPersonalInfo) {
+      return res.status(404).send({
+        error:
+          "Personal information for this given user and application combination is not found.",
+      });
+    }
+    return res.status(200).send(matchedPersonalInfo);
   },
 };

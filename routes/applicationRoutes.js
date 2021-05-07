@@ -14,4 +14,8 @@ module.exports = (app) => {
   app.get("/api/user_signatures", applicationController.getPolicySignatures);
 
   app.get("/api/references", applicationController.getReferences);
+
+  app.get("/api/personal_info", applicationController.getPersonalInfo);
+
+  app.post("/api/personal_info", applicationController.submitPersonalInfo);
 };

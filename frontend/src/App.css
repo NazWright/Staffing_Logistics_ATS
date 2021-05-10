@@ -206,3 +206,9 @@ body {
 .fit-content {
   height: fit-content;
 }
+.pl-10 {
+  padding-left: 10px;
+}
+.pl-30 {
+  padding-left: 30px;
+}

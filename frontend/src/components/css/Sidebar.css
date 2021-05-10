@@ -103,6 +103,36 @@ ul {
 .see-through {
   background-color: transparent !important;
 }
-.sub_menu {
-  padding-left: 25px;
+.sub-menu {
+  display: none;
+  height: 0;
+  opacity: 0;
+  z-index: 0;
+}
+
+.sub-menu.active {
+  display: unset;
+  opacity: 1;
+  transition: opacity 1s;
+  height: unset;
+}
+.sl-menu-item,
+.sl-menu-submenu {
+  color: white;
+  padding-left: 24px;
+  width: 100%;
+  align-items: center;
+  padding: 0px 24px;
+  margin: 0px;
+  display: flex;
+  font-size: 20px;
+}
+.sl-menu-item:hover,
+.sl-menu-submenu:hover {
+  background-color: aqua;
+}
+
+.sl-submenu-item {
+  padding-left: 48px;
+  font-size: 15px;
 }

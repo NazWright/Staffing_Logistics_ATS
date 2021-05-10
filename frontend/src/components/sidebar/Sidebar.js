@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Button } from "react-bootstrap";
+import SidebarMenuItem from "./SidebarMenuItem";
+import SidebarMenuList from "./SidebarMenuList";
 import "../css/Sidebar.css";
 
 export default class Sidebar extends Component {
@@ -43,7 +45,7 @@ export default class Sidebar extends Component {
                 <AiIcons.AiOutlineClose onClick={this.handleSidebar} />
               </a>
             </div>
-            {"menu starts here"}
+            <SidebarMenuList />
           </div>
         </nav>
       </div>

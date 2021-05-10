@@ -12,6 +12,29 @@ const bycrpt = require("bcrypt");
 
 module.exports = {
   /* 
+    Retrieves preferences for a specified user.  
+  */
+
+  async getJobPreferences(req, res) {
+    const { applicationId } = req.query;
+    const userId = req.user._id;
+    try {
+      const matchedPreferences = await Preferences.findOne({
+        applicationId,
+        userId,
+      });
+      if (!matchedPreferences) {
+        return res.status(404).send({
+          error: "Preferences for given user and application is not found.",
+        });
+      }
+      return res.status(200).send(matchedPreferences);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  /* 
     Sumbits job detail preferences for the current user.  
   */
   async submitJobPreferences(req, res) {
@@ -117,6 +140,7 @@ module.exports = {
           policies_signed,
         }).save();
         if (!signedPolicies.isNew) {
+          //saveReferenceToApplication("backgroundCheck", matchedBackgroundCheck._id, applicationId);
           return res.status(200).send(signedPolicies);
         }
         return res.status(500).send({
@@ -124,29 +148,6 @@ module.exports = {
             "Something went wrong, signature submissions could not be saved.",
         });
       }
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  /* 
-    Retrieves preferences for a specified user.  
-  */
-
-  async getJobPreferences(req, res) {
-    const { applicationId } = req.query;
-    const userId = req.user._id;
-    try {
-      const matchedPreferences = await Preferences.findOne({
-        applicationId,
-        userId,
-      });
-      if (!matchedPreferences) {
-        return res.status(404).send({
-          error: "Preferences for given user and application is not found.",
-        });
-      }
-      return res.status(200).send(matchedPreferences);
     } catch (error) {
       console.error(error);
     }
@@ -210,6 +211,7 @@ module.exports = {
         references,
       }).save();
       if (!userReferences.isNew) {
+        //saveReferenceToApplication("backgroundCheck", matchedBackgroundCheck._id, applicationId);
         return res.status(200).send(userReferences);
       }
       return res.status(500).send({
@@ -248,6 +250,7 @@ module.exports = {
         email,
       }).save();
       if (!personalRecord.isNew) {
+        //saveReferenceToApplication("backgroundCheck", matchedBackgroundCheck._id, applicationId);
         return res.status(200).send(personalRecord);
       }
       return res
@@ -304,6 +307,7 @@ module.exports = {
       relationshipToUser,
     }).save();
     if (!emergencyContact.isNew) {
+      //saveReferenceToApplication("backgroundCheck", matchedBackgroundCheck._id, applicationId);
       return res.status(200).send(emergencyContact);
     }
     return res
@@ -314,7 +318,7 @@ module.exports = {
   /* 
     Retrieves the emergency contact info for job application for current user
   */
-  async getEmergencyContact(req, res) {
+  async getEmergencyContactInfo(req, res) {
     const { applicationId } = req.query;
     const userId = req.user._id;
     try {
@@ -375,6 +379,7 @@ module.exports = {
         backgroundSignature,
       }).save();
       if (!backgroundEntries.isNew) {
+        //saveReferenceToApplication("backgroundCheck", matchedBackgroundCheck._id, applicationId);
         return res.status(200).send(backgroundEntries);
       }
       return res.status(500).send({
@@ -405,4 +410,49 @@ module.exports = {
       console.error(error);
     }
   },
+
+  async submitApplication(req, res) {
+    const { applicationId } = req.query;
+    try {
+      const completedApplication = await Application.findByIdAndUpdate(
+        applicationId,
+        { completed: true },
+        { useFindAndModify: false }
+      );
+      if (completedApplication) {
+        return res.status(200).send(completedApplication);
+      }
+      return res
+        .status(500)
+        .send({ error: "Could not successfully submit application" });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async getApplicationById(req, res) {
+    const { applicationId } = req.query;
+    try {
+      const matchedApplication = await Application.findById(
+        applicationId
+      ).populate(
+        "references emergencyContact personalInfo preferences backgroundCheck"
+      );
+      res.send(matchedApplication);
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
+
+/* Saves a reference to the section of the application in the main application schema */
+async function saveReferenceToApplication(
+  property,
+  referenceId,
+  applicationId
+) {
+  const savedReference = await Application.findByIdAndUpdate(applicationId, {
+    // referenceId must be of type ObjectId
+    [property]: referenceId,
+  });
+}

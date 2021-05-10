@@ -18,13 +18,29 @@ const applicationSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  policies: {
-    type: Object,
-    required: false,
-  },
   preferences: {
-    type: Object,
-    required: false,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "preferences",
+  },
+  policySignatures: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "signatures",
+  },
+  references: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "references",
+  },
+  emergencyContact: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "emergency_contacts",
+  },
+  personalInfo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "personal_information",
+  },
+  backgroundCheck: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "background_checks",
   },
 });
 

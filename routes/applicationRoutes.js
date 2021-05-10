@@ -23,6 +23,11 @@ module.exports = (app) => {
 
   app.get("/api/applications/references", applicationController.getReferences);
 
+  app.post(
+    "/api/applications/references",
+    applicationController.submitReferences
+  );
+
   app.get(
     "/api/applications/personal_info",
     applicationController.getPersonalInfo
@@ -35,7 +40,7 @@ module.exports = (app) => {
 
   app.get(
     "/api/applications/emergency_contact",
-    applicationController.getEmergencyContact
+    applicationController.getEmergencyContactInfo
   );
 
   app.post(
@@ -52,4 +57,8 @@ module.exports = (app) => {
     "/api/applications/background_check",
     applicationController.getBackgroundInfo
   );
+
+  app.put("/api/applications/submit", applicationController.submitApplication);
+
+  app.get("/api/applications", applicationController.getApplicationById);
 };

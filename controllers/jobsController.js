@@ -99,7 +99,7 @@ module.exports = {
 
   async createJob(req, res) {
     try {
-      const { title, description, jobUrl, addressOne } = req.body;
+      const { title, description, jobUrl, addressOne, skills } = req.body;
       const languageCode = "en-US";
       const uris = [jobUrl];
       const applicationInfo = {

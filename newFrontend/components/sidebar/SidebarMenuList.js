@@ -7,24 +7,27 @@ import SidebarMenuItem from "./SidebarMenuItem";
 function SidebarMenuList() {
   const { AdminMenu, EmployerMenu, ApplicantMenu } = menus;
 
-  const getMenuType = (roleName) => {
-    const rolesToMenuMap = {
-      Admin: AdminMenu,
-      Default: AdminMenu,
-      Employer: EmployerMenu,
-      Recruiter: EmployerMenu,
-      Applicant: ApplicantMenu,
-    };
-    return rolesToMenuMap[roleName] || false;
-  };
+  // const getMenuType = (roleName) => {
+  //   const rolesToMenuMap = {
+  //     Admin: AdminMenu,
+  //     Default: AdminMenu,
+  //     Employer: EmployerMenu,
+  //     Recruiter: EmployerMenu,
+  //     Applicant: ApplicantMenu,
+  //   };
+  //   return rolesToMenuMap[roleName] || false;
+  // };
 
-  const authInfo = useSelector(selectAuth).auth;
+  // const authInfo = useSelector(selectAuth).auth;
 
-  const currentMenu = getMenuType(authInfo.role.name);
+  // const currentMenu = getMenuType(authInfo.role.name);
 
-  return (
-    <div>
-      <ul className="sl-menu sl-menu-dark sl-menu-root sl-menu-inline">
+  return <div></div>;
+}
+
+export default SidebarMenuList;
+
+/*  <ul className="sl-menu sl-menu-dark sl-menu-root sl-menu-inline">
         {currentMenu.map((menuItem, index) => {
           return (
             <SidebarMenuItem
@@ -37,9 +40,4 @@ function SidebarMenuList() {
             />
           );
         })}
-      </ul>
-    </div>
-  );
-}
-
-export default SidebarMenuList;
+      </ul> */

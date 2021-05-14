@@ -4,6 +4,19 @@ import { transition, borderRadius } from "../../../helpers/style_utils";
 import WithDirection from "../../../helpers/rtl";
 
 const SidebarWrapper = styled.div`
+  .sub-menu {
+    display: none;
+    height: 0;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .sub-menu.active {
+    display: unset;
+    opacity: 1;
+    transition: opacity 1s;
+    height: unset;
+  }
   .isomorphicSidebar {
     z-index: 1000;
     background: ${palette("secondary", 0)};

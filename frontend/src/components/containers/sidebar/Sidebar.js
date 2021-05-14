@@ -1,10 +1,14 @@
 import React from "react";
 import SidebarWrapper from "./Sidebar.styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import appActions from "../../../redux/app/actions";
+import SidebarMenu from "./SidebarMenu";
 
 export default function Sidebar() {
   const { collapsed, openDrawer, height } = useSelector((state) => state.App);
   const isCollapsed = collapsed && !openDrawer;
+  const dispatch = useDispatch();
+  const { toggleOpenDrawer } = appActions;
 
   const asideStyle = {
     flex: "0 0 240px",
@@ -24,12 +28,27 @@ export default function Sidebar() {
     background: "rgb(45, 52, 70)",
   };
 
+  const onMouseEnter = (event) => {
+    if (collapsed && openDrawer === false) {
+      dispatch(toggleOpenDrawer());
+    }
+    return;
+  };
+  const onMouseLeave = () => {
+    if (collapsed && openDrawer === true) {
+      dispatch(toggleOpenDrawer());
+    }
+    return;
+  };
+
   return (
     <SidebarWrapper>
       <div className="">
         <aside
           style={isCollapsed ? collapsedStyle : asideStyle}
           className="isomorphicSidebar"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         >
           <div
             className="sidebar-children"
@@ -51,7 +70,9 @@ export default function Sidebar() {
                   height: "100%",
                 }}
               >
-                <ul className="isoDashboardMenu"></ul>
+                <ul className="isoDashboardMenu">
+                  <SidebarMenu />
+                </ul>
               </div>
             </div>
           </div>

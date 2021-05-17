@@ -18,6 +18,11 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import("./components/pages/Landing")),
   },
+  {
+    path: PUBLIC_ROUTE.SEARCH,
+    exact: true,
+    component: lazy(() => import("./components/pages/search/Search")),
+  },
 ];
 
 function PrivateRoute({ children, ...rest }) {
@@ -55,7 +60,7 @@ export default function Routes() {
                 </Route>
               );
             })}
-            <PrivateRoute path="/dashboard">
+            <PrivateRoute path="/">
               <Dashboard />
             </PrivateRoute>
           </Switch>

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useWindowSize from "../../../hooks/useWindowSize";
-import DashboardRoutes from "./DashboardRoutes";
 import { DashboardContainer, DashboardGlobalStyles } from "./Dashboard.styles";
 import appActions from "../../../redux/app/actions";
 import Header from "../headers/Header";
 import Sidebar from "../sidebar/Sidebar";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function Dashboard() {
   //const appHeight
@@ -40,7 +40,6 @@ export default function Dashboard() {
     <DashboardContainer>
       <DashboardGlobalStyles />
       <div style={{ height }}>
-        <Header />
         <div style={styles.layout}>
           <Sidebar />
         </div>

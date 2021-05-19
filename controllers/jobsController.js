@@ -3,7 +3,6 @@ const keys = require("../config/keys");
 const mongoose = require("mongoose");
 const Company = mongoose.model("companies");
 const User = mongoose.model("users");
-const Job = mongoose.model("jobs");
 
 const companyClient = new talent.CompanyServiceClient({
   projectId: "peoplecount-prod",
@@ -14,6 +13,9 @@ const jobClient = new talent.JobServiceClient();
 const parent = "projects/peoplecount-prod";
 
 module.exports = {
+  async addCompensation(req, res) {
+    const { compensationType } = req.body;
+  },
   async getCompaniesList(req, res) {
     try {
       const responses = await companyClient.listCompanies({ parent });
@@ -21,6 +23,7 @@ module.exports = {
       res.send(resources);
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
@@ -33,6 +36,7 @@ module.exports = {
       res.send(resources);
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
@@ -47,6 +51,7 @@ module.exports = {
       }
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
@@ -56,6 +61,7 @@ module.exports = {
       const { userId } = req.query;
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
@@ -90,6 +96,7 @@ module.exports = {
       res.send(savedCompany);
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
@@ -97,54 +104,43 @@ module.exports = {
 
   updateCompany(req, res) {},
 
-  async createJob(req, res) {
+  createJob: require("./job/createJob"),
+
+  async retrieveJob(req, res) {
+    const { jobName } = req.query || false;
+    if (!jobName) {
+      return res.status(400).send({ error: `Expected param jobName` });
+    }
     try {
-      const { title, description, jobUrl, addressOne, skills } = req.body;
-      const languageCode = "en-US";
-      const uris = [jobUrl];
-      const applicationInfo = {
-        uris,
-      };
-      const addresses = [addressOne];
-
-      const internalJob = new Job({
-        userId: req.user._id,
-        companyId: req.user.org.companyId,
-      });
-
-      // create google job
-      const googleCloudJob = {
-        company: req.user.org.googleCompanyName,
-        requisitionId: internalJob._id,
-        title,
-        description,
-        applicationInfo,
-        addresses,
-        languageCode,
-      };
-
-      const request = {
-        parent,
-        job: googleCloudJob,
-      };
-
-      const responses = await jobClient.createJob(request);
-      const result = responses[0];
-
-      console.log(`Created Google Cloud Job: ${result.name}`);
-      if (result && result.name) {
-        internalJob.googleJobName = result.name;
-        const savedJob = await internalJob.save();
-        res.send(savedJob);
-      } else {
-        res.status(500).send({ error: "Could not create internal job info." });
+      const responses = await jobClient.getJob({ name: jobName });
+      const resource = responses[0] || false;
+      if (resource) {
+        return res.status(200).send(resource);
       }
+      return res
+        .status(404)
+        .send({ error: `Job with name: ${jobName} is not found.` });
     } catch (error) {
       console.error(error);
+      return res.status(500).send({ error });
     }
   },
 
-  retrieveJob(req, res) {},
-
-  retrieveJobsList(req, res) {},
+  async retrieveJobsList(req, res) {
+    const filter = `companyName="${
+      req.user.org.googleCompanyName
+    }" AND status="${req.query.status || "OPEN"}"`;
+    const request = {
+      parent,
+      filter,
+    };
+    try {
+      const responses = await jobClient.listJobs(request);
+      const resources = responses[0];
+      res.send(resources);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({ error });
+    }
+  },
 };

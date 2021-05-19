@@ -430,6 +430,8 @@ module.exports = {
     }
   },
 
+  async updateApplication(req, res) {},
+
   async getApplicationById(req, res) {
     const { applicationId } = req.query;
     try {

@@ -16,5 +16,5 @@ module.exports = (app) => {
 
   app.get("/api/jobs/me", requireLogin, jobsController.retrieveJob);
 
-  app.get("/api/jobs", jobsController.retrieveJobsList);
+  app.get("/api/jobs/list", jobsController.retrieveJobsList);
 };

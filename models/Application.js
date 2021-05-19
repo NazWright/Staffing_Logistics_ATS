@@ -6,6 +6,10 @@ const applicationSchema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
   date_created: {
     type: Date,
     required: true,

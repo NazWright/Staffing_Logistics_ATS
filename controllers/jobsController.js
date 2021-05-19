@@ -17,6 +17,7 @@ module.exports = {
   async addCompensation(req, res) {
     const { compensationType } = req.body;
   },
+
   async getCompaniesList(req, res) {
     try {
       const responses = await companyClient.listCompanies({ parent });
@@ -135,7 +136,7 @@ module.exports = {
     try {
       const responses = await jobClient.listJobs(request);
       const resources = responses[0];
-      res.send(resources);
+      res.status(200).send(resources);
     } catch (error) {
       console.error(error);
       return res.status(500).send({ error });
@@ -144,7 +145,6 @@ module.exports = {
 
   async updateJobById(req, res) {
     const { jobId } = req.query;
-    const internalJob = await Job.findById(jobId);
     const bodyProps = { ...req.body };
     // required fields
     if (
@@ -153,14 +153,16 @@ module.exports = {
     ) {
       return res
         .status(400)
-        .send({ error: "Title and Description property must be specified." });
+        .send({ error: "Title and Description properties must be specified." });
     }
     try {
+      const internalJob = await Job.findById(jobId);
       const updatedJobResponses = await jobClient.updateJob({
         job: {
           name: internalJob.googleJobName,
           company: req.user.org.googleCompanyName,
           requisitionId: internalJob._id,
+          // other non required properties.
           ...bodyProps,
         },
       });

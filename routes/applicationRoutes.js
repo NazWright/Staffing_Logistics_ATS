@@ -1,4 +1,6 @@
 const applicationController = require("../controllers/applicationController");
+const queryParamExists = require("../middlewares/queryParamExists");
+const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = (app) => {
   app.post(
@@ -61,4 +63,18 @@ module.exports = (app) => {
   app.put("/api/applications/submit", applicationController.submitApplication);
 
   app.get("/api/applications", applicationController.getApplicationById);
+
+  app.post(
+    "/api/applications/email_application",
+    requireLogin,
+
+    applicationController.emailApplication
+  );
+
+  app.post(
+    "/api/applications/text_application",
+    requireLogin,
+
+    applicationController.textApplicationNotification
+  );
 };

@@ -3,6 +3,7 @@ const keys = require("../config/keys");
 const mongoose = require("mongoose");
 const Company = mongoose.model("companies");
 const User = mongoose.model("users");
+const Job = mongoose.model("jobs");
 
 const companyClient = new talent.CompanyServiceClient({
   projectId: "peoplecount-prod",
@@ -107,10 +108,7 @@ module.exports = {
   createJob: require("./job/createJob"),
 
   async retrieveJob(req, res) {
-    const { jobName } = req.query || false;
-    if (!jobName) {
-      return res.status(400).send({ error: `Expected param jobName` });
-    }
+    const { jobName } = req.query;
     try {
       const responses = await jobClient.getJob({ name: jobName });
       const resource = responses[0] || false;
@@ -138,6 +136,36 @@ module.exports = {
       const responses = await jobClient.listJobs(request);
       const resources = responses[0];
       res.send(resources);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({ error });
+    }
+  },
+
+  async updateJobById(req, res) {
+    const { jobId } = req.query;
+    const internalJob = await Job.findById(jobId);
+    const bodyProps = { ...req.body };
+    // required fields
+    if (
+      !bodyProps.hasOwnProperty("title") ||
+      !bodyProps.hasOwnProperty("description")
+    ) {
+      return res
+        .status(400)
+        .send({ error: "Title and Description property must be specified." });
+    }
+    try {
+      const updatedJobResponses = await jobClient.updateJob({
+        job: {
+          name: internalJob.googleJobName,
+          company: req.user.org.googleCompanyName,
+          requisitionId: internalJob._id,
+          ...bodyProps,
+        },
+      });
+      const job = updatedJobResponses[0];
+      res.status(200).send(job);
     } catch (error) {
       console.error(error);
       return res.status(500).send({ error });

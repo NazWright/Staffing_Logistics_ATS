@@ -1,4 +1,5 @@
 const jobsController = require("../controllers/jobsController");
+const queryParamExists = require("../middlewares/queryParamExists");
 const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = (app) => {
@@ -14,7 +15,19 @@ module.exports = (app) => {
   // all employers and recruiters , super admin
   app.post("/api/jobs", requireLogin, jobsController.createJob);
 
-  app.get("/api/jobs/me", requireLogin, jobsController.retrieveJob);
+  app.get(
+    "/api/jobs/me",
+    requireLogin,
+    queryParamExists(["jobName"]),
+    jobsController.retrieveJob
+  );
 
   app.get("/api/jobs/list", jobsController.retrieveJobsList);
+
+  app.put(
+    "/api/jobs",
+    requireLogin,
+    queryParamExists(["jobId"]),
+    jobsController.updateJobById
+  );
 };

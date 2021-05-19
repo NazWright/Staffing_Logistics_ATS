@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "v14.16.1",
-    "npm": "7.11.2"
+    "node": "v14.16.1"
   },
   "scripts": {
     "start": "node index.js",
@@ -36,7 +35,6 @@
     "create-react-app": "^4.0.3",
     "express": "^4.17.1",
     "jspdf": "^2.3.1",
-    "mailgun-js": "^0.22.0",
     "mongodb": "^3.6.5",
     "mongoose": "^5.12.3",
     "node-geocoder": "^3.27.0",

@@ -12,11 +12,11 @@ const bycrpt = require("bcrypt");
 const sms = require("../helpers/sms");
 const email = require("../helpers/email");
 
-const mailgun = require("mailgun-js");
+/* const mailgun = require("mailgun-js");
 
 const DOMAIN = "sandbox7764dc35e2f043f48d275d324a3a852d.mailgun.org";
 const api_key = "7f02389a23646c9543ef66d2b9032ebb-71b35d7e-67d20b72";
-const mg = mailgun({ apiKey: api_key, domain: DOMAIN });
+const mg = mailgun({ apiKey: api_key, domain: DOMAIN }); */
 
 const applicationStatuses = {
   NEW: "NEW",
@@ -448,30 +448,7 @@ module.exports = {
     }
   },
 
-  async emailApplication(req, res) {
-    const { applicationId } = req.query;
-    const { to, subject, message } = req.body;
-    // const {recipient, subject, options, message } = req.body
-    try {
-      const matchedApplication = await Application.findById(
-        applicationId
-      ).populate(
-        "references emergencyContact personalInfo preferences backgroundCheck"
-      );
-      // html
-      const data = {
-        from: "Staffing Logistics <me@samples.mailgun.org>",
-        to: to,
-        subject: subject,
-        text: message,
-      };
-      mg.messages().send(data, function (error, body) {
-        console.log(body);
-        console.log(error);
-        res.send(body);
-      });
-    } catch (error) {}
-  },
+  async emailApplication(req, res) {},
 
   async textApplicationNotification(req, res) {
     if (

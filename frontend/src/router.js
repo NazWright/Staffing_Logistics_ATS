@@ -23,6 +23,11 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import("./components/pages/search/Search")),
   },
+  {
+    path: PUBLIC_ROUTE.FORM,
+    exact: true,
+    component: lazy(() => import("./components/pages/application/PageOne")),
+  },
 ];
 
 function PrivateRoute({ children, ...rest }) {

@@ -6,20 +6,19 @@ import Header from "./components/containers/headers/Header";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetch_user());
   });
 
-  const auth = useSelector(selectAuth);
+  const auth = useSelector(selectAuth).auth;
   console.log(auth);
 
   return (
     <div className="App">
       <Header />
       <>
-        <main>
-          <Routes />
-        </main>
+        <Routes />
       </>
     </div>
   );

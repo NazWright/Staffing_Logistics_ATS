@@ -29,7 +29,7 @@ module.exports = {
   },
 
   localAuth(req, res) {
-    res.send("done");
+    res.send("success");
   },
 
   postGoogleAuth(req, res) {

@@ -8,8 +8,11 @@ export const PUBLIC_ROUTE = {
   PAGE_500: "/500",
   AUTH0_CALLBACK: "/auth0loginCallback",
   SEARCH: "/search",
+  FORM: "/form",
+  AUTH: "/auth",
 };
 export const PRIVATE_ROUTE = {
-  DASHBOARD: "/dashboard",
-  APPLICATIONS: "/applications",
+  DASHBOARD: "/",
+  EDIT_JOB: "/jobs/:jobId",
+  MAP: "/jobs/map",
 };

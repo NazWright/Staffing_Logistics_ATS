@@ -23,11 +23,25 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import("./components/pages/search/Search")),
   },
+  {
+    path: PUBLIC_ROUTE.FORM,
+    exact: true,
+    component: lazy(() => import("./components/pages/application/PageOne")),
+  },
+  {
+    path: PUBLIC_ROUTE.AUTH,
+    exact: true,
+    component: lazy(() => import("./components/Authentication")),
+  },
+  {
+    path: PUBLIC_ROUTE.SIGN_UP,
+    exact: true,
+    component: lazy(() => import("./components/Register")),
+  },
 ];
 
 function PrivateRoute({ children, ...rest }) {
-  const isLoggedIn = useSelector(selectAuth);
-
+  const isLoggedIn = useSelector(selectAuth).auth;
   return (
     <Route
       {...rest}
@@ -37,7 +51,7 @@ function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/signin",
+              pathname: "/auth",
               state: { from: location },
             }}
           />
@@ -60,7 +74,7 @@ export default function Routes() {
                 </Route>
               );
             })}
-            <PrivateRoute path="/">
+            <PrivateRoute path="/dashboard">
               <Dashboard />
             </PrivateRoute>
           </Switch>

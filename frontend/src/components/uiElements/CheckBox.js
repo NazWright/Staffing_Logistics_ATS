@@ -1,16 +1,30 @@
 import React, { useState } from "react";
 
-export default function CheckBox({ label }) {
-  const [checked, setChecked] = useState(false);
-  const onCheck = (event) => {
-    setChecked(true);
+export default function CheckBox({
+  label,
+  value,
+  name,
+  checkBoxOnChange,
+  checked,
+}) {
+  const checkBoxChange = (e) => {
+    checkBoxOnChange(e.target.checked, name);
   };
+
   return (
-    <li onClick={onCheck}>
-      <span>
-        <input type="checkbox" name="checkboxInput" />
-        <label htmlFor="checkboxInput">{label}</label>
-      </span>
-    </li>
+    <span>
+      &nbsp;
+      <label>
+        <input
+          type="checkbox"
+          name={name}
+          value={value}
+          className="checkbox"
+          onChange={checkBoxChange}
+          checked={checked}
+        />
+        {label}
+      </label>
+    </span>
   );
 }

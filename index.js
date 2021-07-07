@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const keys = require("./config/keys");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
-
+const flash = require("req-flash");
 const app = express();
 
 require("./models");
@@ -48,6 +48,7 @@ app.use(
     extended: true,
   })
 );
+app.use(flash());
 
 require("./routes")(app);
 

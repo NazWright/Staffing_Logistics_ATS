@@ -6,7 +6,7 @@ import LoggedInNav from "./LoggedInNav";
 import { Navbar, Container } from "react-bootstrap";
 
 export default function Header() {
-  // get the screen size
+  // change this to redux selector
   const isLoggedIn = false;
 
   const renderNav = () => {
@@ -16,11 +16,5 @@ export default function Header() {
     return <DefaultNav />;
   };
 
-  return (
-    <header>
-      <Navbar bg="light" expand="xl">
-        <Container fluid>{renderNav()}</Container>
-      </Navbar>
-    </header>
-  );
+  return <header style={{ minHeight: "106px" }}>{renderNav()}</header>;
 }

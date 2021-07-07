@@ -7,10 +7,10 @@ module.exports = (app) => {
 
   app.post(
     "/api/login",
-    passport.authenticate("local", {
-      successRedirect: "/",
-      failureRedirect: "/",
-    })
+    passport.authenticate("local", { failureRedirect: "/login" }),
+    function (req, res) {
+      res.redirect("/dashboard");
+    }
   );
 
   app.get(
@@ -30,8 +30,8 @@ module.exports = (app) => {
 
   app.get("/auth/failure", usersController.failure);
 
-  app.get("/api/current_user", requireLogin, (req, res) => {
-    res.send(req.user);
+  app.get("/api/current_user", (req, res) => {
+    res.send(req.user || false);
   });
 
   app.get("/api/logout", (req, res) => {

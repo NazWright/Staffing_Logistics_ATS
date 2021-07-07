@@ -5,7 +5,22 @@ import Loader from "../../../utility/Loader";
 const routes = [
   {
     path: "",
-    component: lazy(() => import("../../pages/Landing")),
+    component: lazy(() => import("./DashboardContent")),
+    exact: true,
+  },
+  {
+    path: "/jobs/:jobId",
+    component: lazy(() => import("../../jobs/EditJob")),
+    exact: true,
+  },
+  {
+    path: "jobs/map",
+    component: lazy(() => import("../../pages/map/Map")),
+    exact: true,
+  },
+  {
+    path: "jobs/rankings",
+    component: lazy(() => import("../../CandidateRankings")),
     exact: true,
   },
 ];

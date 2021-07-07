@@ -6,6 +6,8 @@ import appActions from "../../../redux/app/actions";
 import Header from "../headers/Header";
 import Sidebar from "../sidebar/Sidebar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import DashboardRoutes from "./DashboardRoutes";
+import DashboardContent from "./DashboardContent";
 
 export default function Dashboard() {
   //const appHeight
@@ -22,7 +24,12 @@ export default function Dashboard() {
   const isCollapsed = collapsed && !openDrawer;
 
   const styles = {
-    layout: { flexDirection: "row", overflowX: "hidden" },
+    layout: {
+      flexDirection: "row",
+      overflowX: "hidden",
+      height,
+      maxHeight: height,
+    },
     content: {
       padding: "70px 0 0",
       flexShrink: "0",
@@ -37,13 +44,11 @@ export default function Dashboard() {
   };
 
   return (
-    <DashboardContainer>
-      <DashboardGlobalStyles />
-      <div style={{ height }}>
-        <div style={styles.layout}>
-          <Sidebar />
-        </div>
-      </div>
-    </DashboardContainer>
+    <main style={{ display: "flex" }}>
+      <Sidebar />
+      <section className="float-left" style={{ width: "100%" }}>
+        <DashboardRoutes />
+      </section>
+    </main>
   );
 }

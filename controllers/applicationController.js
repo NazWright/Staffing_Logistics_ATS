@@ -10,7 +10,6 @@ const EmergencyContact = mongoose.model("emergency_contacts");
 const BackgroundCheck = mongoose.model("background_checks");
 const bycrpt = require("bcrypt");
 const sms = require("../helpers/sms");
-const email = require("../helpers/email");
 
 /* const mailgun = require("mailgun-js");
 

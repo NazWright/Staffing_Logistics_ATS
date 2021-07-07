@@ -35,7 +35,7 @@ passport.use(
       }).then((existingUser) => {
         if (existingUser) {
           // we already have a record with the given profile ID
-          res.redirect("/");
+
           done(null, existingUser);
         } else {
           // we don't have a user record with this ID, make a new record!
@@ -63,23 +63,26 @@ passport.use(
 
 passport.use(
   new LocalStrategy(
-    {
-      usernameField: "email",
-      passReqToCallback: true,
-    },
-    async function (req, email, password, done) {
-      let user;
-      try {
-        user = await User.findOne({ email });
+    { usernameField: "email", passwordField: "password" },
+
+    function (email, password, done) {
+      User.findOne({ email: email }, function (err, user) {
+        if (err) {
+          return done(err);
+        }
         if (!user) {
-          return done(null, false, { message: "No user with this email" });
+          return done(null, false, { message: "User not found" });
         }
-        if (bcrypt.compare(password, user.password)) {
-          return done(null, user);
-        }
-      } catch (err) {
-        return done(err);
-      }
+        bcrypt.compare(password, user.password, (err, same) => {
+          if (err) {
+            return done(err);
+          }
+          if (!same) {
+            return done(null, false);
+          }
+        });
+        return done(null, user);
+      });
     }
   )
 );

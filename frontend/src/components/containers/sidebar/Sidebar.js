@@ -14,10 +14,10 @@ export default function Sidebar() {
     flex: "0 0 240px",
     maxWidth: "240px",
     minWidth: "240px",
-    height: "100vh",
+
     background: "rgb(45, 52, 70)",
-    position: "relative",
     transition: "0.3s",
+    float: "left",
   };
   const collapsedStyle = {
     flex: "0 0 80px",
@@ -26,6 +26,7 @@ export default function Sidebar() {
     width: "80px",
     transition: "0.3s",
     background: "rgb(45, 52, 70)",
+    float: "left",
   };
 
   const onMouseEnter = (event) => {
@@ -42,42 +43,65 @@ export default function Sidebar() {
   };
 
   return (
-    <SidebarWrapper>
-      <div className="">
-        <aside
-          style={isCollapsed ? collapsedStyle : asideStyle}
-          className="isomorphicSidebar"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
+    <aside
+      style={isCollapsed ? collapsedStyle : asideStyle}
+      className="isomorphicSidebar"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div
+        className="sidebar-children"
+        style={{
+          position: "relative",
+          zIndex: "1001",
+          background: "rgb(45, 52, 70)",
+        }}
+      >
+        <div className="isoLogoWrapper"></div>
+        <div className="menu-items-wrapper" style={{ height: "100%" }}>
           <div
-            className="sidebar-children"
             style={{
               position: "relative",
-              zIndex: "1001",
-              background: "rgb(45, 52, 70)",
+              inset: "0px",
+              overflow: "scroll",
+              marginRight: "0px",
+              marginBottom: "0px",
+              height: "100%",
             }}
           >
-            <div className="isoLogoWrapper"></div>
-            <div className="menu-items-wrapper" style={{ height: 931 }}>
-              <div
-                style={{
-                  position: "relative",
-                  inset: "0px",
-                  overflow: "scroll",
-                  marginRight: "0px",
-                  marginBottom: "0px",
-                  height: "100%",
-                }}
-              >
-                <ul className="isoDashboardMenu">
-                  <SidebarMenu />
-                </ul>
-              </div>
-            </div>
+            <ul className="isoDashboardMenu" style={{ listStyle: "none" }}>
+              <SidebarMenu />
+            </ul>
           </div>
-        </aside>
+        </div>
       </div>
-    </SidebarWrapper>
+    </aside>
   );
 }
+
+/* <div
+        className="sidebar-children"
+        style={{
+          position: "relative",
+          zIndex: "1001",
+          background: "rgb(45, 52, 70)",
+        }}
+      >
+        <div className="isoLogoWrapper"></div>
+        <div className="menu-items-wrapper" style={{ height: 931 }}>
+          <div
+            style={{
+              position: "relative",
+              inset: "0px",
+              overflow: "scroll",
+              marginRight: "0px",
+              marginBottom: "0px",
+              height: "100%",
+            }}
+          >
+            <ul className="isoDashboardMenu">
+              <SidebarMenu />
+            </ul>
+          </div>
+        </div>
+      </div> */

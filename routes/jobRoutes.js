@@ -30,4 +30,6 @@ module.exports = (app) => {
     queryParamExists(["jobId"]),
     jobsController.updateJobById
   );
+
+  app.get("/api/jobs/search", jobsController.searchJobs);
 };

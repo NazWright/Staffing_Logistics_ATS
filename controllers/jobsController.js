@@ -13,6 +13,10 @@ const jobClient = new talent.JobServiceClient();
 
 const parent = "projects/peoplecount-prod";
 
+const doesPropExist = (property) => {
+  property ? property : undefined;
+};
+
 module.exports = {
   async addCompensation(req, res) {
     const { compensationType } = req.body;
@@ -160,10 +164,53 @@ module.exports = {
       const updatedJobResponses = await jobClient.updateJob({
         job: {
           name: internalJob.googleJobName,
+          requisitionId: internalJob._id,
           company: req.user.org.googleCompanyName,
+          description: bodyProps.description,
+
+          /* 
           requisitionId: internalJob._id,
           // other non required properties.
-          ...bodyProps,
+          addresses: bodyProps.address ? [bodyProps.address] : undefined,
+          description: bodyProps.description
+            ? bodyProps.description
+            : undefined,
+          employmentTypes: bodyProps.employmentTypes
+            ? bodyProps.employmentTypes
+            : undefined,
+          compensationInfo: {
+            entries: [
+              {
+                type: "BASE",
+                unit: "HOURLY",
+                expectedUnitsPerYear: {
+                  value: 2080,
+                },
+                range: {
+                  maxCompensation: {
+                    currencyCode: "USD",
+                    nanos: 0,
+                    units: bodyProps.maxCompensation,
+                  },
+                  minCompensation: {
+                    currencyCode: "USD",
+                    nanos: 0,
+                    units: bodyProps.minCompensation,
+                  },
+                },
+              },
+            ],
+          }, */
+          title: bodyProps.title,
+          //postingExpireTime: new Date(bodyProps.postingExpireTime),
+          //jobEndTime: new Date(bodyProps.jobEndTime),
+          //jobStartTime: new Date(bodyProps.jobStartTime),
+
+          /* applicationInfo: {
+            emails: [bodyProps.email],
+            uris: [bodyProps.applicationUri],
+            instruction: bodyProps.instruction,
+          }, */
         },
       });
       const job = updatedJobResponses[0];
@@ -171,6 +218,34 @@ module.exports = {
     } catch (error) {
       console.error(error);
       return res.status(500).send({ error });
+    }
+  },
+
+  async searchJobs(req, res) {
+    const filter = { ...req.query };
+    if (!filter.hasOwnProperty("title")) {
+      return res
+        .status(400)
+        .send({ error: "Please specify a title and address" });
+    }
+
+    try {
+      const matchedJobs = await jobClient.searchJobs({
+        parent,
+        requestMetadata: {
+          userId: req.user._id,
+          domain: "localhost",
+          sessionId: req.user._id,
+        },
+        jobView: "JOB_VIEW_MINIMAL",
+        jobQuery: {
+          query: filter.title,
+        },
+      });
+
+      res.send(matchedJobs);
+    } catch (error) {
+      console.error(error);
     }
   },
 };

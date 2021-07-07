@@ -1,22 +1,26 @@
 import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Header.css";
-import LoggedInHeader from "./LoggedInHeader";
-import VisitorHeader from "./VisitorHeader";
+import DefaultNav from "./DefaultNav";
+import LoggedInNav from "./LoggedInNav";
+import { Navbar, Container } from "react-bootstrap";
 
 export default function Header() {
-  const isLoggedIn = useSelector((state) => state.auth) ? true : false;
-  const { collapsed, openDrawer } = useSelector((state) => state.App);
+  // get the screen size
+  const isLoggedIn = false;
 
-  const classes = {
-    header: "header",
-    headerLeft: "headerLeft",
-    menuButton: "menuButton",
+  const renderNav = () => {
+    if (isLoggedIn) {
+      return <LoggedInNav />;
+    }
+    return <DefaultNav />;
   };
 
   return (
-    <header className={classes.header}>
-      {isLoggedIn ? <LoggedInHeader /> : <VisitorHeader />}
+    <header>
+      <Navbar bg="light" expand="xl">
+        <Container fluid>{renderNav()}</Container>
+      </Navbar>
     </header>
   );
 }
